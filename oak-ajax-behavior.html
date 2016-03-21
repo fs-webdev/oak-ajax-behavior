@@ -2,6 +2,11 @@
 
 <script>
   (function() {
+    var readCookie = function(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    };
     var _sessionId;
     window.OakAJAXBehavior = {
       properties: {
@@ -44,7 +49,6 @@
             return location.origin;
           },
           readOnly: true,
-          
           notify: true
         }
       },
@@ -62,6 +66,13 @@
         var headerObj = { Authorization: 'Bearer ' + this.sessionId };
         this._setAuthHeaders(headerObj);
       },
+
+      ready: function() {
+        // If a user is on FamilySearch.org check the `fssessionid` cookie
+        if (~location.origin.indexOf('familysearch.org')) {
+          this.sessionId = readCookie('fssessionid') || this.sessionId;
+        }
+      }
     };
   })();
 </script>
