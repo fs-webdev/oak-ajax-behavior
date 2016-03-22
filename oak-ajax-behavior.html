@@ -79,7 +79,8 @@
         _instances.push(this);
 
         // If a user is on FamilySearch.org check the `fssessionid` cookie
-        if (~location.origin.indexOf('familysearch.org')) {
+        if (~location.origin.indexOf('familysearch.org') || 
+            ~location.origin.indexOf('localhost:5000')) {
           this.sessionId = readCookie('fssessionid') || this.sessionId;
         }
       }
