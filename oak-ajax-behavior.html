@@ -8,6 +8,8 @@
       if (parts.length == 2) return parts.pop().split(";").shift();
     };
     var _sessionId;
+    var _instances = [];
+
     window.OakAJAXBehavior = {
       properties: {
         /**
@@ -64,10 +66,18 @@
       set sessionId(val) {
         _sessionId = val;
         var headerObj = { Authorization: 'Bearer ' + this.sessionId };
-        this._setAuthHeaders(headerObj);
+        _instances.forEach(function(instance) {
+          if (instance && instance._setAuthHeaders) {
+            instance._setAuthHeaders(headerObj)
+          }
+        });
       },
 
       ready: function() {
+        // Save off a ref to the consuming object so we can update
+        // all of the components when needed
+        _instances.push(this);
+
         // If a user is on FamilySearch.org check the `fssessionid` cookie
         if (~location.origin.indexOf('familysearch.org')) {
           this.sessionId = readCookie('fssessionid') || this.sessionId;
