@@ -1,0 +1,36 @@
+{
+  "name": "oak-ajax-behavior",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "oak-ajax-behavior.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^4.0.0"
+  },
+  "_release": "130d2c0162",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "130d2c01627ab2746103af9a911ae46f964a3e41"
+  },
+  "_source": "https://github.com/FamilySearchElements/oak-ajax-behavior.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/FamilySearchElements/oak-ajax-behavior.git",
+  "_direct": true
+}
