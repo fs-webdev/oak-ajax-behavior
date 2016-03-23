@@ -9,7 +9,10 @@
     };
     var _sessionId;
     var _instances = [];
-
+    var _headers = { 
+      'Content-Type':'application/json',
+      'Accept':'application/json'
+    };
     /**
      * @polymerBehavior
      */
@@ -74,10 +77,10 @@
        */
       set sessionId(val) {
         _sessionId = val;
-        var headerObj = { Authorization: 'Bearer ' + this.sessionId };
+        _headers.Authorization = 'Bearer ' + this.sessionId;
         _instances.forEach(function(instance) {
           if (instance && instance._setAuthHeaders) {
-            instance._setAuthHeaders(headerObj)
+            instance._setAuthHeaders(_headers)
           }
         });
       },
