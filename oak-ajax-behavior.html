@@ -10,6 +10,9 @@
     var _sessionId;
     var _instances = [];
 
+    /**
+     * @polymerBehavior
+     */
     window.OakAJAXBehavior = {
       properties: {
         /**
@@ -56,13 +59,19 @@
       },
 
       /**
-       * The sessionId that will be used for FamilySearch.org
-       * requests
+       * A getter for the sessionId that will be used for 
+       * FamilySearch.org requests 
        * @return {String} The actual session ID
        */
       get sessionId() {
         return _sessionId;
       },
+
+      /**
+       * A setter for the sessionId that will automatically
+       * update all consuming elements' `authHeaders` object
+       * @param  {String} val The new sessionId
+       */
       set sessionId(val) {
         _sessionId = val;
         var headerObj = { Authorization: 'Bearer ' + this.sessionId };
