@@ -43,6 +43,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         test('it should properly set the sessionId when assigned', function() {
           var val = 'asdf1234567890';
           var authObj = {
+            'Content-Type':'application/json',
+            'Accept':'application/json',
             Authorization: 'Bearer ' + val
           };
           el.sessionId = val;
