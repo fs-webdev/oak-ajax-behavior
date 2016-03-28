@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 before_script:
-  - npm install -g bower polylint web-component-tester
+  - npm install -g bower polylint web-component-tester istanbul git+https://github.com/thedeeno/web-component-tester-istanbul.git coveralls
   - bower install
   - polylint
 env:
@@ -23,3 +23,4 @@ addons:
 script:
   - xvfb-run wct
   - "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then wct -s 'default'; fi"
+after_script: 'cat ./coverage/lcov.info | coveralls'
