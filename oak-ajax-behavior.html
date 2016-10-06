@@ -9,7 +9,7 @@
     };
     var _sessionId;
     var _instances = [];
-    var _headers = { 
+    var _headers = {
       'Content-Type':'application/json',
       'Accept':'application/json'
     };
@@ -37,10 +37,9 @@
         ajaxBase: {
           type: String,
           value: function() {
-            // If on localhost proxy to integration
-            if (~location.origin.indexOf('localhost')) {
-              // Don't proxy port 5000
-              if (!~location.origin.indexOf(':5000')) {
+            // If on localhost port other than 5000-5009, proxy to integration
+            if (~location.origin.indexOf('localhost')) {   //found?
+              if (!~location.origin.search(/:500[0-9]/)) {
                 return 'https://integration.familysearch.org';
               }
               return location.origin;
@@ -62,8 +61,8 @@
       },
 
       /**
-       * A getter for the sessionId that will be used for 
-       * FamilySearch.org requests 
+       * A getter for the sessionId that will be used for
+       * FamilySearch.org requests
        * @return {String} The actual session ID
        */
       get sessionId() {
@@ -90,9 +89,9 @@
         // all of the components when needed
         _instances.push(this);
 
-        // If a user is on FamilySearch.org check the `fssessionid` cookie
-        if (~location.origin.indexOf('familysearch.org') || 
-            ~location.origin.indexOf('localhost:5000')) {
+        // If a user is on FamilySearch.org or localhost:5000-5009 check the `fssessionid` cookie
+        if (~location.origin.indexOf('familysearch.org') ||
+            ~location.origin.search(/:500[0-9]/)) {
           this.sessionId = readCookie('fssessionid') || this.sessionId;
         }
       }
