@@ -8,11 +8,35 @@
       if (parts.length == 2) return parts.pop().split(";").shift();
     };
     var _sessionId;
+    var _ajaxBase;
     var _instances = [];
     var _headers = {
       'Content-Type':'application/json',
       'Accept':'application/json'
     };
+
+    var getAjaxBase = function(){
+      if(_ajaxBase){
+        return _ajaxBase;
+      }
+      // If on localhost port other than 5000-5009, proxy to integration
+      if (~location.origin.indexOf('localhost')) {   //found?
+        if (!~location.origin.search(/:500[0-9]/)) {
+          return 'https://integration.familysearch.org';
+        }
+        return location.origin;
+      }
+
+      // If not on familysearch domain proxy to FamilySearch.org
+      // TODO: Extend this to allow third parties to also hit dev
+      // references
+      if (!~location.origin.indexOf('familysearch.org')) {
+        return 'https://familysearch.org';
+      }
+
+      // Otherwise just return the origin
+      return location.origin;
+    }
     /**
      * @polymerBehavior OakAJAXBehavior
      */
@@ -28,35 +52,17 @@
           readOnly: true,
           notify: true
         },
-
         /**
-         * A URL base that will properly route localhost,
-         * FamilySearch.org domains, and others
+         * The base url for ajax requests
          * @type {String}
          */
         ajaxBase: {
           type: String,
-          value: function() {
-            // If on localhost port other than 5000-5009, proxy to integration
-            if (~location.origin.indexOf('localhost')) {   //found?
-              if (!~location.origin.search(/:500[0-9]/)) {
-                return 'https://integration.familysearch.org';
-              }
-              return location.origin;
-            }
+          readOnly: true,
+          notify: true,
+          value: getAjaxBase
+        },
 
-            // If not on familysearch domain proxy to FamilySearch.org
-            // TODO: Extend this to allow third parties to also hit dev
-            // references
-            if (!~location.origin.indexOf('familysearch.org')) {
-              return 'https://familysearch.org';
-            }
-
-            // Otherwise just return the origin
-            return location.origin;
-          },
-          notify: true
-        }
       },
 
       /**
@@ -83,15 +89,39 @@
         });
       },
 
+      /**
+       * a getter for URL base that will properly route localhost,
+       * FamilySearch.org domains, and others
+       * @type {String}
+       */
+      get ajaxBase() {
+        return getAjaxBase();
+      },
+
+      /**
+       * a setter for URL base that will properly route localhost,
+       * FamilySearch.org domains, and others
+       * @type {String}
+       */
+      set ajaxBase(val) {
+        _ajaxBase = val;
+        _instances.forEach(function(instance) {
+          if (instance && instance._setAjaxBase) {
+            instance._setAjaxBase(_ajaxBase)
+          }
+        });
+      },
+
       ready: function() {
         // Save off a ref to the consuming object so we can update
         // all of the components when needed
         _instances.push(this);
 
-        // If a user is on FamilySearch.org or localhost:5000-5009 check the `fssessionid` cookie
+        // If a user is on FamilySearch.org or localhost:5000-5009 or 3000 or 8080 check the `fssessionid` cookie
         if (~location.origin.indexOf('familysearch.org') ||
-            ~location.origin.search(/:500[0-9]/)) {
-          this.sessionId = readCookie('fssessionid') || this.sessionId;
+            ~location.origin.search(/:(3|5|8)0(8|0)[0-9]/)) {
+
+          this.sessionId = readCookie('fssessionid') || this.sessionId || _sessionId;
         }
       }
     };
