@@ -81,7 +81,9 @@
        */
       set sessionId(val) {
         _sessionId = val;
-        _headers.Authorization = 'Bearer ' + this.sessionId;
+        if(this.sessionId) {
+          _headers.Authorization = 'Bearer ' + this.sessionId;
+        }
         _instances.forEach(function(instance) {
           if (instance && instance._setAuthHeaders) {
             instance._setAuthHeaders(_headers)
