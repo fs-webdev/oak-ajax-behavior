@@ -22,25 +22,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="./x-el.html">
   </head>
   <body>
-    <test-fixture id='x-el'>
+    <test-fixture id='x-el-fixture'>
       <template>
         <x-el></x-el>
       </template>
     </test-fixture>
     <script>
-      suite('oak-ajax-behavior', function() {
+      describe('oak-ajax-behavior', function() {
         var el;
 
-        setup(function() {
-          el = fixture('x-el');
+        beforeEach(function() {
+          el = fixture('x-el-fixture');
         });
 
-        test('it should have a default `undefined` sessionId', function() {
+        it('it should have a default `undefined` sessionId', function() {
           assert.equal(el.sessionId, undefined);
           assert.equal(el.sessionId, OakAJAXBehavior.sessionId);
         });
 
-        test('it should properly set the sessionId when assigned', function() {
+        it('it should properly set the sessionId when assigned', function() {
           var val = 'asdf1234567890';
           var authObj = {
             'Content-Type':'application/json',
@@ -52,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.deepEqual(el.authHeaders, authObj);
         });
 
-        test('it should properly assign ajaxBase to integration', function() {
+        it('it should properly assign ajaxBase to integration', function() {
           assert.equal(el.ajaxBase, computeUrl(location.origin));
         });
 
