@@ -16,26 +16,11 @@
     };
 
     var getAjaxBase = function(){
-      if(_ajaxBase){
-        return _ajaxBase;
-      }
-      // If on localhost port other than 5000-5009, proxy to integration
-      if (~location.origin.indexOf('localhost')) {   //found?
-        if (!~location.origin.search(/:500[0-9]/)) {
-          return 'https://integration.familysearch.org';
-        }
+      if(~location.origin.indexOf('localhost')){
         return location.origin;
+      } else {
+        return FS.baseUrl;
       }
-
-      // If not on familysearch domain proxy to FamilySearch.org
-      // TODO: Extend this to allow third parties to also hit dev
-      // references
-      if (!~location.origin.indexOf('familysearch.org')) {
-        return 'https://familysearch.org';
-      }
-
-      // Otherwise just return the origin
-      return location.origin;
     }
     /**
      * @polymerBehavior OakAJAXBehavior
