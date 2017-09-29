@@ -110,6 +110,15 @@
 
           this.sessionId = readCookie('fssessionid') || this.sessionId || _sessionId;
         }
+      },
+
+      /**
+       * Clean up _instances.
+       */
+      detached: function() {
+        _instances = _instances.filter(function(_instance) {
+          return this !== _instance;
+        }.bind(this));
       }
     };
   })();
