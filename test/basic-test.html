@@ -13,13 +13,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src='./helpers.js'></script>
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="./helpers.js"></script>
 
     <!-- Step 1: import the element to test -->
-    <link rel="import" href="../oak-ajax-behavior.html">
-    <link rel="import" href="./x-el.html">
+    <script type="module" src="../oak-ajax-behavior.js"></script>
+    <script type="module" src="./x-el.js"></script>
   </head>
   <body>
     <test-fixture id='x-el-fixture'>
@@ -27,37 +27,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <x-el></x-el>
       </template>
     </test-fixture>
-    <script>
-      describe('oak-ajax-behavior', function() {
-        var el;
+    <script type="module">
+import '../oak-ajax-behavior.js';
+import './x-el.js';
+describe('oak-ajax-behavior', function() {
+  var el;
 
-        beforeEach(function() {
-          el = fixture('x-el-fixture');
-        });
+  beforeEach(function() {
+    el = fixture('x-el-fixture');
+  });
 
-        it('it should have a default `undefined` sessionId', function() {
-          assert.equal(el.sessionId, undefined);
-          assert.equal(el.sessionId, OakAJAXBehavior.sessionId);
-        });
+  it('it should have a default `undefined` sessionId', function() {
+    assert.equal(el.sessionId, undefined);
+    assert.equal(el.sessionId, OakAJAXBehavior.sessionId);
+  });
 
-        it('it should properly set the sessionId when assigned', function() {
-          var val = 'asdf1234567890';
-          var authObj = {
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            Authorization: 'Bearer ' + val
-          };
-          el.sessionId = val;
-          assert.equal(el.sessionId, val);
-          assert.deepEqual(el.authHeaders, authObj);
-        });
+  it('it should properly set the sessionId when assigned', function() {
+    var val = 'asdf1234567890';
+    var authObj = {
+      'Content-Type':'application/json',
+      'Accept':'application/json',
+      Authorization: 'Bearer ' + val
+    };
+    el.sessionId = val;
+    assert.equal(el.sessionId, val);
+    assert.deepEqual(el.authHeaders, authObj);
+  });
 
-        it('it should properly assign ajaxBase to integration', function() {
-          assert.equal(el.ajaxBase, computeUrl(location.origin));
-        });
+  it('it should properly assign ajaxBase to integration', function() {
+    assert.equal(el.ajaxBase, computeUrl(location.origin));
+  });
 
-      });
-    </script>
+});
+</script>
 
   </body>
 </html>
