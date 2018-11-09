@@ -18,11 +18,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="./helpers.js"></script>
 
     <!-- Step 1: import the element to test -->
-    <!-- <script type="module" src="../oak-ajax-behavior.js"></script>
-    <script type="module" src="./x-el.js"></script> -->
+    <script type="module" src="../oak-ajax-behavior.js"></script>
+    <script type="module" src="./x-el.js"></script>
   </head>
   <body>
-    <test-fixture id='x-el-fixture'>
     <test-fixture id='x-el-fixture'>
       <template>
         <x-el></x-el>
@@ -31,6 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script type="module">
 import '../oak-ajax-behavior.js';
 import './x-el.js';
+
 describe('oak-ajax-behavior', function() {
   var el;
 

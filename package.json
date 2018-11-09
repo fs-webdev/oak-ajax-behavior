@@ -8,7 +8,7 @@
   "homepage": "https://github.com/<USERNAME>/seed-element/",
   "name": "oak-ajax-behavior",
   "scripts": {
-    "test": "wct"
+    "test": "wct --module-resolution=node --npm"
   },
   "version": "2.0.0",
   "resolutions": {
