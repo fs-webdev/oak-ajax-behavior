@@ -71,7 +71,7 @@
         }
         _instances.forEach(function(instance) {
           if (instance && instance._setAuthHeaders) {
-            instance._setAuthHeaders(_headers)
+            instance.setupAuthHeaders();
           }
         });
       },
@@ -119,6 +119,13 @@
         _instances = _instances.filter(function(_instance) {
           return this !== _instance;
         }.bind(this));
+      },
+
+      /**
+       * Setup authHeaders property.
+       */
+      setupAuthHeaders: function() {
+        this._setAuthHeaders(_headers);
       }
     };
   })();
